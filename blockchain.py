@@ -76,7 +76,7 @@ class Blockchain():
             It is a get method, so we use the decorator @property to
             encapsulate it.
         """
-        return
+        return self.last_block['index'] + 1
 
     def run_proof_of_work(self, last_proof: int):
         """
