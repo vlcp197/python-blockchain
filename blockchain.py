@@ -1,10 +1,9 @@
 import hashlib
 import json
 from time import time
-from typing import Union
+from typing import Union, List
 from uuid import uuid4
-from flask import Flask
-from flask import jsonify
+from flask import Flask, jsonify, request
 from textwrap import dedent
 
 
@@ -127,11 +126,38 @@ def get_mine_block():
 
 @app.route('/transactions/new', methods=['POST'])
 def add_new_transaction():
-    return "We'll add a new transaction"
+    """
+        Adds a new transction to the block.
+    """
+    values = request.get_json()
+
+    missing_values = []
+    # Check if the request contains all the required values
+    required: List[str] = ['sender', 'recipient', 'amount']
+
+    if not all(k in values for k in required):
+        missing_values = [k for k in required if k not in values]
+        # for k in required:
+        #     if k not in values:
+        #         missing_values.append(k)
+        return f"Missing values{str(missing_values)}", 400
+
+    index: str = blockchain.add_new_transaction(
+        values['sender'],
+        values['recipient'],
+        values['amount']
+    )
+
+    response: dict = {'message': f'Transaction will be added to Block {index}'}
+
+    return jsonify({response}), 200
 
 
 @app.route('/chain', methods=['GET'])
 def get_full_chain():
+    """
+        Get method to return the chain.
+    """
     response: dict = {
         'chain': blockchain.chain,
         'length': len(blockchain.chain),
