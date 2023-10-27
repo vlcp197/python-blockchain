@@ -5,7 +5,7 @@ Creating a blockchain from scratch to learn how one works.
 * An index;
 * A timestamp;
 * A list of transactions with their sender, recipient, and the amount.
-* Beyond that, a block needs to have its proof of work and the previous hash
+* Beyond that, a block needs to have its proof of work and the previous hash.
 
 ## Definitions:
 - Proof of work algorithm = How new blocks are created or mined.
