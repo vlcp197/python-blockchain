@@ -1,6 +1,8 @@
 import hashlib
 import json
 from time import time
+from typing import Union
+from uuid import uuid4
 
 
 class Blockchain():
@@ -10,7 +12,7 @@ class Blockchain():
         self.current_transactions = []
 
         self.create_new_block(previous_hash=1, proof=100)
-        
+
     def create_new_block(self, proof: int, previous_hash: int = None):
         """
         Creates a new block and adds it to the chain.
@@ -52,12 +54,18 @@ class Blockchain():
         return self.get_last_block['index'] + 1
 
     @staticmethod
-    def hash_block(block):
-        """Hashes a block
+    def hash_block(block: dict):
+        """
+        Creates a SHA-256 hash of a block
+        Params:
+            block: Block that will be hashed.
+            return: Hash of a block.
         It is a static method, because it belongs to the class itself
         not to an specific object of that class.
         """
-        return
+        block_json: Union[str, dict, float, int] = json.dumps(
+            block, sort_keys=True).encode()
+        return hashlib.sha256(block_json).hexdigest()
 
     @property
     def get_last_block(self):
@@ -72,3 +80,10 @@ class Blockchain():
 # a timestamp;
 # a list of transactions with their sender, recipient, and the amount.
 # Beyond that, a block needs to have its proof of work and the previous hash
+
+# Proof of work algorithm = How new blocks are created or mined
+# Proof of work goal = Discover a number that solves a problem.
+# The number must be very difficult to find but very easy to verify.
+
+
+
