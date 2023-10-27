@@ -5,6 +5,7 @@ from typing import Union, List
 from uuid import uuid4
 from flask import Flask, jsonify, request
 from textwrap import dedent
+from urllib.parse import urlparse
 
 
 class Blockchain():
@@ -12,7 +13,7 @@ class Blockchain():
     def __init__(self):
         self.chain = []
         self.current_transactions = []
-
+        self.nodes = set()
         self.create_new_block(previous_hash=1, proof=100)
 
     def create_new_block(self, proof: int, previous_hash: int = None):
@@ -76,7 +77,7 @@ class Blockchain():
             It is a get method, so we use the decorator @property to
             encapsulate it.
         """
-        return self.last_block['index'] + 1
+        return self.chain[-1]
 
     def run_proof_of_work(self, last_proof: int):
         """
@@ -107,6 +108,17 @@ class Blockchain():
         guess: str = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
+
+    def register_node(self, address):
+        """
+            Add a new node to a list of nodes
+            params:
+                address: Address of the node.
+                E.g.: http://192.168.0.5:5000
+                return: None
+        """
+        parsed_url = urlparse(address)
+        self.nodes.add(parsed_url.netloc)
 
 
 # Instantiate our node
@@ -142,8 +154,8 @@ def mine_block():
     )
 
     # Forge the new block by adding it to the chain
-    previous_hash = blockchain.hash(last_block)
-    block = blockchain.new_block(proof, previous_hash)
+    previous_hash = blockchain.hash_block(last_block)
+    block = blockchain.create_new_block(proof, previous_hash)
 
     response = {
         'message': 'New forged block',
