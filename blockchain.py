@@ -15,11 +15,11 @@ class Blockchain():
 
     def create_new_block(self, proof: int, previous_hash: int = None):
         """
-        Creates a new block and adds it to the chain.
-        Params:
-            proof: The proof given by the proof of work algorithm.
-            previous_hash: The hash of previous block.
-            return: New block.
+            Creates a new block and adds it to the chain.
+            Params:
+                proof: The proof given by the proof of work algorithm.
+                previous_hash: The hash of previous block.
+                return: New block.
         """
         block = {
             'index': len(self.chain) + 1,
@@ -38,12 +38,12 @@ class Blockchain():
 
     def add_new_transaction(self, sender: str, recipient: str, amount: int):
         """
-        Adds a new transaction to the list of transactions.
-        Params:
-            sender: Address of the sender.
-            recipient: Address of the recipient.
-            amount: Quantity traded.
-            return: Index of the block that will hold this transaction.
+            Adds a new transaction to the list of transactions.
+            Params:
+                sender: Address of the sender.
+                recipient: Address of the recipient.
+                amount: Quantity traded.
+                return: Index of the block that will hold this transaction.
         """
 
         self.current_transactions.append({
@@ -56,12 +56,12 @@ class Blockchain():
     @staticmethod
     def hash_block(block: dict):
         """
-        Creates a SHA-256 hash of a block
-        Params:
-            block: Block that will be hashed.
-            return: Hash of a block.
-        It is a static method, because it belongs to the class itself
-        not to an specific object of that class.
+            Creates a SHA-256 hash of a block
+            Params:
+                block: Block that will be hashed.
+                return: Hash of a block.
+            It is a static method, because it belongs to the class itself
+            not to an specific object of that class.
         """
         block_json: Union[str, dict, float, int] = json.dumps(
             block, sort_keys=True).encode()
@@ -69,11 +69,42 @@ class Blockchain():
 
     @property
     def get_last_block(self):
-        """Return the last block in the chain.
-        It is a get method, so we use the decorator @property to
-        encapsulate it.
+        """
+            Return the last block in the chain.
+            It is a get method, so we use the decorator @property to
+            encapsulate it.
         """
         return
+
+    def run_proof_of_work(self, last_proof: int):
+        """
+            Simple proof of work algorithm:
+                - Find a number x' such that hash(xx') contains 4 leading
+                zeroes, where p is the previous p'
+                - p is the previous proof, and p' is the new proof
+            Params:
+                last_proof
+                return: New proof
+        """
+        proof = 0
+        while self.verify_valid_proof(last_proof, proof) is False:
+            proof += 1
+
+        return proof
+
+    @staticmethod
+    def verify_valid_proof(last_proof: int, proof: int):
+        """
+            Validates the proof, verifying if hash(last_proof, proof) has
+            4 leading zeroes.
+            Params:
+                last_proof
+                proof
+                return: True if correct, or False.
+        """
+        guess: str = f'{last_proof}{proof}'.encode()
+        guess_hash = hashlib.sha256(guess).hexdigest()
+        return guess_hash[:4] == "0000"
 
 # Each block needs to have:
 # an index;
@@ -84,6 +115,3 @@ class Blockchain():
 # Proof of work algorithm = How new blocks are created or mined
 # Proof of work goal = Discover a number that solves a problem.
 # The number must be very difficult to find but very easy to verify.
-
-
-
