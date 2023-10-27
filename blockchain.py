@@ -119,8 +119,42 @@ node_identifier: str = str(uuid4()).replace('-', '')
 blockchain: Blockchain = Blockchain()
 
 
+# This method will be split into other methods afterwards
 @app.route('/mine', methods=['GET'])
-def get_mine_block():
+def mine_block():
+    """
+        Mining Endpoint for the API.
+        It calculates the proof of work;
+        Rewards the miner giving 1 coin;
+        Creates the new block and adds it to the chain.
+    """
+
+    # Run the proof of work algorithm to get the another proof
+    last_block = blockchain.get_last_block
+    last_proof = last_block['proof']
+    proof = blockchain.run_proof_of_work(last_proof)
+
+    # Receive the reward for the proof of work
+    blockchain.add_new_transaction(
+        sender='0',
+        recipient=node_identifier,
+        amount=1
+    )
+
+    # Forge the new block by adding it to the chain
+    previous_hash = blockchain.hash(last_block)
+    block = blockchain.new_block(proof, previous_hash)
+
+    response = {
+        'message': 'New forged block',
+        'index': block['index'],
+        'transactions': block['transactions'],
+        'proof': block['proof'],
+        'previous_hash': block['previous_hash'],
+    }
+
+    return jsonify(response), 200
+
     return "We'll mine a new block"
 
 
@@ -137,9 +171,6 @@ def add_new_transaction():
 
     if not all(k in values for k in required):
         missing_values = [k for k in required if k not in values]
-        # for k in required:
-        #     if k not in values:
-        #         missing_values.append(k)
         return f"Missing values{str(missing_values)}", 400
 
     index: str = blockchain.add_new_transaction(
@@ -150,7 +181,7 @@ def add_new_transaction():
 
     response: dict = {'message': f'Transaction will be added to Block {index}'}
 
-    return jsonify({response}), 200
+    return jsonify({response}), 201
 
 
 @app.route('/chain', methods=['GET'])
