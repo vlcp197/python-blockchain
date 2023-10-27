@@ -3,6 +3,9 @@ import json
 from time import time
 from typing import Union
 from uuid import uuid4
+from flask import Flask
+from flask import jsonify
+from textwrap import dedent
 
 
 class Blockchain():
@@ -106,12 +109,36 @@ class Blockchain():
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
 
-# Each block needs to have:
-# an index;
-# a timestamp;
-# a list of transactions with their sender, recipient, and the amount.
-# Beyond that, a block needs to have its proof of work and the previous hash
 
-# Proof of work algorithm = How new blocks are created or mined
-# Proof of work goal = Discover a number that solves a problem.
-# The number must be very difficult to find but very easy to verify.
+# Instantiate our node
+app = Flask(__name__)
+
+# Generate a globally unique address for this node
+node_identifier: str = str(uuid4()).replace('-', '')
+
+# Instantiate the blockchain
+blockchain: Blockchain = Blockchain()
+
+
+@app.route('/mine', methods=['GET'])
+def get_mine_block():
+    return "We'll mine a new block"
+
+
+@app.route('/transactions/new', methods=['POST'])
+def add_new_transaction():
+    return "We'll add a new transaction"
+
+
+@app.route('/chain', methods=['GET'])
+def get_full_chain():
+    response: dict = {
+        'chain': blockchain.chain,
+        'length': len(blockchain.chain),
+    }
+
+    return jsonify(response), 200
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
