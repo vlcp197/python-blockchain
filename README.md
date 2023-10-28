@@ -11,6 +11,14 @@ Creating a blockchain from scratch to learn how one works.
 - Proof of work algorithm = How new blocks are created or mined.
 - Proof of work goal = Discover a number that solves a problem.
 - The number must be very difficult to find but very easy to verify.
+- Consensus Algorithm = Set of rules that help blockchain nodes to stay synchronized. It ensures that every node in the blockchain will have the same view of the blockchain. It is necessary, since the blockchain networks are decentralized.
+
+## Endpoints:
+- /transctions/new = To create a new transaction to a block.
+- /mine = To mine a new block.
+- /chain = To return the full blockchain.
+- /nodes/register = To accept a list of new nodes in the form of URLs
+- /nodes/resolve = to implement the Consensus Algorithm.
 
 ## Tutorial:
 https://hackernoon.com/learn-blockchains-by-building-one-117428612f46
