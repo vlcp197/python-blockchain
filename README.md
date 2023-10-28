@@ -10,16 +10,16 @@
 To use the API, make HTTP requests to the following endpoint:
 
 ### To mine a new block
-GET[http://127.0.0.1:5000/mine]
+GET [http://127.0.0.1:5000/mine]
 
 ### To retrieve the full blockchain
-GET[http://127.0.0.1:5000/chain]
+GET [http://127.0.0.1:5000/chain]
 
 ### To implement the Consensus Algorithm
-GET[http://127.0.0.1:5000/nodes/resolve]
+GET [http://127.0.0.1:5000/nodes/resolve]
 
 ### To create a new transaction to a block
-POST[http://127.0.0.1:5000/transactions/new]  
+POST [http://127.0.0.1:5000/transactions/new]  
 
 ```
 Content-Type: application/json
@@ -31,7 +31,7 @@ Content-Type: application/json
 ```
 
 ### To accept a list of new nodes in the form of URLs
-POST[http://127.0.0.1:5000/nodes/register]
+POST [http://127.0.0.1:5000/nodes/register]
 
 ```
 Content-Type: application/json
