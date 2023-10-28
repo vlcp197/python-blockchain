@@ -52,6 +52,9 @@ Content-Type: application/json
 - The number must be very difficult to find but very easy to verify.
 - Consensus Algorithm = Set of rules that help blockchain nodes to stay synchronized. It ensures that every node in the blockchain will have the same view of the blockchain. It is necessary, since the blockchain networks are decentralized.
 
+### Consensus Algorithm:
+- The longest valid chain is Authoritative. In other words, the longest chain is the official and correct version of the blockchain, since it's the chain that is accepted by the majority of nodes in the network
+
 ## Endpoints:
 - /transctions/new = To create a new transaction to a block.
 - /mine = To mine a new block.
@@ -59,8 +62,9 @@ Content-Type: application/json
 - /nodes/register = To accept a list of new nodes in the form of URLs
 - /nodes/resolve = to implement the Consensus Algorithm.
 
-## Consensus Algorithm:
-- The longest valid chain is Authoritative. In other words, the longest chain is the official and correct version of the blockchain, since it's the chain that is accepted by the majority of nodes in the network
+## What i've learned
+
+## What's different from the tutorial
 
 ## Tutorial:
 https://hackernoon.com/learn-blockchains-by-building-one-117428612f46
