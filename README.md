@@ -55,13 +55,6 @@ Content-Type: application/json
 ### Consensus Algorithm:
 - The longest valid chain is Authoritative. In other words, the longest chain is the official and correct version of the blockchain, since it's the chain that is accepted by the majority of nodes in the network
 
-## Endpoints:
-- /transctions/new = To create a new transaction to a block.
-- /mine = To mine a new block.
-- /chain = To return the full blockchain.
-- /nodes/register = To accept a list of new nodes in the form of URLs
-- /nodes/resolve = to implement the Consensus Algorithm.
-
 ## What i've learned
 
 ## What's different from the tutorial
