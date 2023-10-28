@@ -4,6 +4,7 @@ from time import time
 from typing import Union, List
 from uuid import uuid4
 from flask import Flask, jsonify, request
+import requests
 from textwrap import dedent
 from urllib.parse import urlparse
 
@@ -141,13 +142,47 @@ class Blockchain():
                 return False
 
             # Check if the proof of work is correct
-            if not self.valid_proof(last_block['proof'], block['proof']):
+            if not self.verify_valid_proof(
+                    last_block['proof'], block['proof']):
                 return False
 
             last_block = block
             current_index += 1
 
         return True
+
+    def resolve_conflicts(self):
+        """
+            This is the Consensus Algorithm, it resolves conflicts by
+            replacing our chain with the longest one in the network.
+            Params:
+                return: True if our chain was replaced, False if not.
+        """
+
+        neighbours = self.nodes
+        new_chain = None
+
+        # Comparing chains to know which is the longest
+        max_length = len(self.chain)
+
+        # Fetching the chains of all nodes in our network and verifying it
+        for node in neighbours:
+            response = requests.get(f'http://{node}/chain')
+
+            if response.status_code == 200:
+                length = response.json()['length']
+                chain = response.json()['chain']
+
+                # Check if the length is longer and the chain is valid
+                if length > max_length and self.valid_chain(chain):
+                    max_length = length
+                    new_chain = chain
+
+        if new_chain:
+            self.chain = new_chain
+            return True
+
+        return False
 
 
 # Instantiate our node
@@ -234,6 +269,48 @@ def get_full_chain():
         'chain': blockchain.chain,
         'length': len(blockchain.chain),
     }
+
+    return jsonify(response), 200
+
+
+@app.route('/nodes/register', methods=['POST'])
+def register_nodes():
+    """
+        Endpoint to register nodes in the blockchain.
+    """
+    values = request.get_json()
+
+    nodes = values.get('nodes')
+    if nodes is None:
+        return "Error: Please supply a valid list of nodes", 400
+
+    for node in nodes:
+        blockchain.register_node(node)
+
+    response = {
+        'message': 'New node have been added',
+        'total_nodes': list(blockchain.nodes),
+    }
+    return jsonify(response), 201
+
+
+@app.route('/nodes/resolve', methods=['GET'])
+def reachConsensusOnBlock():
+    """
+        Endpoint to apply the Consensus Algorithm.
+    """
+    replaced = blockchain.resolve_conflicts()
+
+    if replaced:
+        response = {
+            'message': 'Our chain was replaced',
+            'new_chain': blockchain.chain
+        }
+    else:
+        response = {
+            'message': 'Our chain is authoritative',
+            'chain': blockchain.chain,
+        }
 
     return jsonify(response), 200
 
