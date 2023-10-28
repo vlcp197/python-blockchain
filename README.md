@@ -4,6 +4,36 @@
 * Creating a blockchain from scratch to learn how one works.
 * Working with flask API to access and manage the blockchain.
 
+## Authentication
+
+## Usage
+To use the API, make HTTP requests to the following endpoint:
+
+### To mine a new block
+GET[http://127.0.0.1:5000/mine]
+
+### To retrieve the full blockchain
+GET[http://127.0.0.1:5000/chain]
+
+### To implement the Consensus Algorithm
+GET[http://127.0.0.1:5000/nodes/resolve]
+
+### To create a new transaction to a block
+POST[http://127.0.0.1:5000/transactions/new]
+Content-Type: application/json
+{
+    "sender": "" ,
+    "recipient": "",
+    "amount": 1
+}
+
+### To accept a list of new nodes in the form of URLs
+POST[http://127.0.0.1:5000/nodes/register]
+Content-Type: application/json
+{
+    "nodes": ["http://127.0.0.1:5001"]
+}
+
 ## Each block needs to have:
 * An index;
 * A timestamp;
