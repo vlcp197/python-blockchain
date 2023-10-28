@@ -28,7 +28,7 @@ Content-Type: application/json
     "recipient": "",
     "amount": 1
 }
-
+'''
 ### To accept a list of new nodes in the form of URLs
 POST[http://127.0.0.1:5000/nodes/register]
 
