@@ -5,7 +5,6 @@ from typing import Union, List
 from uuid import uuid4
 from flask import Flask, jsonify, request
 import requests
-from textwrap import dedent
 from urllib.parse import urlparse
 
 
@@ -257,7 +256,7 @@ def add_new_transaction():
 
     response: dict = {'message': f'Transaction will be added to Block {index}'}
 
-    return jsonify({response}), 201
+    return jsonify(response), 201
 
 
 @app.route('/chain', methods=['GET'])
