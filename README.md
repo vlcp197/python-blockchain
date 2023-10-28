@@ -35,7 +35,6 @@ POST[http://127.0.0.1:5000/nodes/register]
 
 ```
 Content-Type: application/json
-
 {
     "nodes": ["http://127.0.0.1:5001"]
 }
