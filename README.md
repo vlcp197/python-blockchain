@@ -19,7 +19,7 @@ GET[http://127.0.0.1:5000/chain]
 GET[http://127.0.0.1:5000/nodes/resolve]
 
 ### To create a new transaction to a block
-POST[http://127.0.0.1:5000/transactions/new]
+POST[http://127.0.0.1:5000/transactions/new]  
 Content-Type: application/json
 {
     "sender": "" ,
