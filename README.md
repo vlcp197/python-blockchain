@@ -22,7 +22,7 @@ GET[http://127.0.0.1:5000/nodes/resolve]
 POST[http://127.0.0.1:5000/transactions/new]  
 
 Content-Type: application/json
-
+```
 {
     "sender": "" ,
     "recipient": "",
