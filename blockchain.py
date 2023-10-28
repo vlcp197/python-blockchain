@@ -111,7 +111,7 @@ class Blockchain():
 
     def register_node(self, address):
         """
-            Add a new node to a list of nodes
+            Add neighbouring nodes to the network.
             params:
                 address: Address of the node.
                 E.g.: http://192.168.0.5:5000
