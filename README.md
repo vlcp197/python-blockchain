@@ -21,8 +21,8 @@ GET[http://127.0.0.1:5000/nodes/resolve]
 ### To create a new transaction to a block
 POST[http://127.0.0.1:5000/transactions/new]  
 
-Content-Type: application/json
 ```
+Content-Type: application/json
 {
     "sender": "" ,
     "recipient": "",
@@ -30,16 +30,16 @@ Content-Type: application/json
 }
 ```
 
-
-
 ### To accept a list of new nodes in the form of URLs
 POST[http://127.0.0.1:5000/nodes/register]
 
+```
 Content-Type: application/json
 
 {
     "nodes": ["http://127.0.0.1:5001"]
 }
+```
 
 ## Each block needs to have:
 * An index;
