@@ -1,5 +1,8 @@
 # python-blockchain
-Creating a blockchain from scratch to learn how one works.
+
+## Overview
+* Creating a blockchain from scratch to learn how one works.
+* Working with flask API to access and manage the blockchain.
 
 ## Each block needs to have:
 * An index;
