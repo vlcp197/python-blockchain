@@ -7,6 +7,11 @@
 ## Authentication
 
 ## Usage
+How to run the API server?
+```
+python api.py
+```
+
 To use the API, make HTTP requests to the following endpoint:
 
 ### To mine a new block
